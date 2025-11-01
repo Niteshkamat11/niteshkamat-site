@@ -1,156 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Nitesh Kamat – Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Full Stack Developer &amp; AI Enthusiast</title>
+    
 </head>
 <body>
-        <img src="chat-bubble.svg" alt="AI Chat">
-  <nav class="navbar">
-    <span class="brand">Nitesh<span class="brand-accent">Kamat</span></span>
-    <ul>
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <section id="hero" class="hero-section">
-    <h1>Hi, I'm <span id="typed-name"></span></h1>
-    <p class="hero-role">Full Stack Developer & AI Enthusiast</p>
-    <p>Building intelligent web solutions with modern technologies</p>
-    <a href="#projects" class="btn-main">View Projects</a>
-    <a href="#contact" class="btn-outline">Contact Me</a>
-    <div class="scroll-indicator">&#8595;</div>
-  </section>
-
-  <section id="about" class="about-section">
-    <div class="circle-avatar"></div>
-    <h2>About Me</h2>
-    <p>Born in 2002, Biratnagar, Nepal. I'm passionate about building intelligent web applications with AI integration.</p>
-  </section>
-
-  <section id="skills" class="skills-section">
-    <h2>Skills & Technologies</h2>
-    <div class="skills-cards">
-      <div class="card skill-card">
-        <h3>Frontend</h3>
-        <ul>
-          <li>React</li>
-          <li>JavaScript</li>
-          <li>HTML/CSS</li>
-          <li>Tailwind CSS</li>
-        </ul>
-      </div>
-      <div class="card skill-card">
-        <h3>Backend</h3>
-        <ul>
-          <li>Node.js</li>
-          <li>Python</li>
-          <li>Express</li>
-          <li>FastAPI</li>
-        </ul>
-      </div>
-      <div class="card skill-card">
-        <h3>AI/ML</h3>
-        <ul>
-          <li>TensorFlow</li>
-          <li>PyTorch</li>
-          <li>OpenAI APIs</li>
-          <li>LangChain</li>
-        </ul>
-      </div>
-      <div class="card skill-card">
-        <h3>Tools</h3>
-        <ul>
-          <li>Git</li>
-          <li>Docker</li>
-          <li>MongoDB</li>
-          <li>PostgreSQL</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects" class="projects-section">
-    <h2>Featured Projects</h2>
-    <div class="project-cards">
-      <div class="card project-card">
-        <div class="project-icon">🤖</div>
-        <h3>AI Chatbot Platform</h3>
-        <p>Conversational AI system with NLP capabilities and seamless user interaction.</p>
-        <div class="tags"><span>Python</span><span>OpenAI</span><span>React</span></div>
-      </div>
-      <div class="card project-card">
-        <div class="project-icon">🛒</div>
-        <h3>E-Commerce Dashboard</h3>
-        <p>Full-stack dashboard with analytics, inventory management, and data visualization.</p>
-        <div class="tags"><span>React</span><span>Node.js</span><span>MongoDB</span><span>Chart.js</span></div>
-      </div>
-      <div class="card project-card">
-        <div class="project-icon">📊</div>
-        <h3>Machine Learning Model</h3>
-        <p>Predictive analytics using advanced ML algorithms.</p>
-        <div class="tags"><span>Python</span><span>TensorFlow</span><span>Pandas</span><span>Scikit-learn</span></div>
-      </div>
-      <div class="card project-card">
-        <div class="project-icon">✨</div>
-        <h3>Portfolio Generator</h3>
-        <p>AI-powered tool that creates professional portfolios from user input.</p>
-        <div class="tags"><span>React</span><span>OpenAI API</span><span>Tailwind CSS</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact-section">
-    <h2>Get In Touch</h2>
-    <p>Location: Biratnagar, Nepal<br>Email: <span id="email" onclick="copyEmail()">nitesh0434@gmail.com</span></p>
-    <form>
-      <input type="text" name="name" required placeholder="Name" />
-      <input type="email" name="email" required placeholder="Email" />
-      <textarea name="message" required placeholder="Message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <div class="social-links">
-      <a href="#" target="_blank">GitHub</a>
-      <a href="#" target="_blank">LinkedIn</a>
-      <a href="#" target="_blank">Twitter</a>
-    </div>
-  </section>
-
-  <footer>
+    <!-- Navigation -->
     <nav>
-      <a href="#hero">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+        <div class="nav-container">
+            <div class="logo">Your<span>Name</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
-    <p>© 2025 Nitesh Kamat. Built with ❤️ and AI</p>
-  </footer>
 
-  <!-- Floating AI Chatbot Bubble -->
-  <div id="chatbot-bubble" onclick="openChatbot()">
-    <img src="chat-bubble.svg" alt="AI Chat" />
-  </div>
-  <!-- Chatbot Window -->
-  <div id="chatbot-window">
-    <div class="chatbot-header">
-      <span>AI Assistant</span>
-      <button onclick="closeChatbot()">×</button>
-    </div>
-    <div id="chatbot-messages" class="chatbot-messages"></div>
-    <div class="chatbot-input">
-      <input type="text" id="chatbot-input" placeholder="Ask about Nitesh..." onkeydown="chatbotKeydown(event)" />
-      <button onclick="sendChatbotMessage()">Send</button>
-    </div>
-  </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Hi, I'm <span class="name"></span><span class="typing-cursor"></span></h1>
+            <h2>Full Stack Developer &amp; AI Enthusiast</h2>
+            <p>Building intelligent web solutions with modern technologies</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Contact Me</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
 
-  <script src="main.js"></script>
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="profile-image"></div>
+            <div class="about-text">
+                <h3>Born in 2002, Biratnagar, Nepal</h3>
+                <p>I'm a passionate full-stack developer from Biratnagar, Nepal, specializing in creating intelligent web applications with AI integration. With a strong foundation in both frontend and backend technologies, I love building solutions that make a real impact.</p>
+                <p>My journey in software development is driven by curiosity and a desire to leverage cutting-edge technologies to solve real-world problems. I believe in creating user-centric applications that are not only functional but also delightful to use.</p>
+                <div class="interests">
+                    <span class="interest-tag">🤖 Machine Learning</span>
+                    <span class="interest-tag">💻 Web Development</span>
+                    <span class="interest-tag">🧠 AI Solutions</span>
+                    <span class="interest-tag">🎨 User Experience Design</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="fade-in">
+        <h2 class="section-title">Skills &amp; Technologies</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><span class="skill-icon">⚛</span> Frontend</h3>
+                <ul class="skill-list">
+                    <li>React</li>
+                    <li>JavaScript</li>
+                    <li>HTML/CSS</li>
+                    <li>Tailwind CSS</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">⚙</span> Backend</h3>
+                <ul class="skill-list">
+                    <li>Node.js</li>
+                    <li>Python</li>
+                    <li>Express</li>
+                    <li>FastAPI</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">🤖</span> AI/ML</h3>
+                <ul class="skill-list">
+                    <li>TensorFlow</li>
+                    <li>PyTorch</li>
+                    <li>OpenAI APIs</li>
+                    <li>LangChain</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">🛠</span> Tools</h3>
+                <ul class="skill-list">
+                    <li>Git</li>
+                    <li>Docker</li>
+                    <li>MongoDB</li>
+                    <li>PostgreSQL</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="fade-in">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-thumbnail">🤖</div>
+                <div class="project-content">
+                    <h3>AI Chatbot Platform</h3>
+                    <p>Conversational AI system with natural language processing capabilities, providing intelligent responses and seamless user interaction</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">OpenAI</span>
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">FastAPI</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumbnail">🛒</div>
+                <div class="project-content">
+                    <h3>E-Commerce Dashboard</h3>
+                    <p>Full-stack web application with real-time analytics, inventory management, and data visualization</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">Node.js</span>
+                        <span class="project-tag">MongoDB</span>
+                        <span class="project-tag">Chart.js</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumbnail">📊</div>
+                <div class="project-content">
+                    <h3>Machine Learning Model</h3>
+                    <p>Predictive analytics system using advanced ML algorithms for data-driven insights</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">TensorFlow</span>
+                        <span class="project-tag">Pandas</span>
+                        <span class="project-tag">Scikit-learn</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumbnail">✨</div>
+                <div class="project-content">
+                    <h3>Portfolio Generator</h3>
+                    <p>AI-powered tool that automatically creates professional portfolios from user input</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">OpenAI API</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="fade-in">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <p>I'm always interested in hearing about new projects and opportunities.</p>
+                <div class="contact-detail">
+                    <strong>📍 Location:</strong> Biratnagar, Nepal
+                </div>
+                <div class="contact-detail">
+                    <strong>📧 Email:</strong> your.email@example.com
+                </div>
+                <div class="social-links">
+                    <a href="#" target="_blank" class="social-link" title="GitHub">G</a>
+                    <a href="#" target="_blank" class="social-link" title="LinkedIn">L</a>
+                    <a href="#" target="_blank" class="social-link" title="Twitter">T</a>
+                    <a href="mailto:your.email@example.com" class="social-link" title="Email">@</a>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full-width">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Your Name. All rights reserved.</p>
+                <p>Built with ❤️ and AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <button class="chat-button" id="chatButton" aria-label="Open AI Chat">💬</button>
+    
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3>🤖 AI Assistant</h3>
+            <div class="chat-controls">
+                <button class="chat-control-btn" id="minimizeChat" aria-label="Minimize">−</button>
+                <button class="chat-control-btn" id="closeChat" aria-label="Close">×</button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything..." aria-label="Chat input">
+            <button class="chat-send-btn" id="chatSend" aria-label="Send message">➤</button>
+        </div>
+    </div>
+
+    
+    <script src="main.js"></script>
 </body>
-</html>
 
