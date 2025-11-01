@@ -168,4 +168,7 @@ footer a { color: #04b6d4; margin: 0 1em; text-decoration:none;}
   #chatbot-window{width:98vw;right:1vw;}
   #chatbot-bubble{right:10px;bottom:14px;}
 }
+#chatbot-bubble {
+  background: #fff;
+}
 
