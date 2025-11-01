@@ -1,78 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Nitesh Kamat</title>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Nitesh Kamat – Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-        <header>
-            <h1>Nitesh Kamat</h1>
-            <nav>
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
-            <button id="dark-mode-toggle" aria-label="Toggle dark mode" style="margin-top:15px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600;">
-                🌙 Dark Mode
-            </button>
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="hero-content">
+      <h1>
+        <span id="typed-name"></span>
+      </h1>
+      <p class="tagline">Full Stack Developer & AI Enthusiast</p>
+      <p>Building intelligent web solutions with modern technologies</p>
+      <a href="#projects" class="btn">View Projects</a>
+      <a href="#contact" class="btn">Contact Me</a>
+      <div class="scroll-indicator">&#8595;</div>
+    </div>
+  </section>
 
-        </header>
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="profile-pic"></div>
+    <div>
+      <h2>About Me</h2>
+      <p>
+        I'm Nitesh Kamat, a developer from Biratnagar, Nepal, born in 2002. I specialize in creating intelligent web apps with AI integration, devoted to user-centric design and innovation.
+      </p>
+      <ul>
+        <li>Machine Learning</li>
+        <li>Web Development</li>
+        <li>AI Solutions</li>
+      </ul>
+    </div>
+  </section>
 
-        <main>
-            <section id="about">
-                <h2>About Me</h2>
-                <p>Hi! I'm Nitesh Kamat, a web developer passionate about simplicity, performance, and clean design.</p>
-            </section>
+  <!-- Skills Section -->
+  <section id="skills" class="skills-section">
+    <h2>Skills</h2>
+    <div class="skill-cards">
+      <div class="card">React</div>
+      <div class="card">JavaScript</div>
+      <div class="card">HTML/CSS</div>
+      <div class="card">Tailwind CSS</div>
+      <div class="card">Node.js</div>
+      <div class="card">Python</div>
+      <div class="card">Express</div>
+      <div class="card">FastAPI</div>
+      <div class="card">TensorFlow</div>
+      <div class="card">PyTorch</div>
+      <div class="card">OpenAI APIs</div>
+      <div class="card">LangChain</div>
+      <div class="card">Git</div>
+      <div class="card">Docker</div>
+      <div class="card">MongoDB</div>
+      <div class="card">PostgreSQL</div>
+    </div>
+  </section>
 
-            <section id="projects">
-                <h2>Projects</h2>
-                <div class="project-list">
-                    <!-- Project cards will go here -->
-                </div>
-            </section>
+  <!-- Projects Section -->
+  <section id="projects" class="projects-section">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <h3>AI Chatbot Platform</h3>
+        <p>Conversational AI system with NLP capabilities.</p>
+        <small>Python, OpenAI, React, FastAPI</small>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <h3>E-Commerce Dashboard</h3>
+        <p>Full-stack dashboard with analytics & inventory.</p>
+        <small>React, Node.js, MongoDB, Chart.js</small>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <h3>Machine Learning Model</h3>
+        <p>Predictive analytics using advanced ML.</p>
+        <small>Python, TensorFlow, Pandas, Scikit-learn</small>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <h3>Portfolio Generator</h3>
+        <p>Automated, AI-powered portfolio creator.</p>
+        <small>React, OpenAI API, Tailwind CSS</small>
+      </div>
+    </div>
+  </section>
 
-            <section id="contact">
-                <h2>Contact</h2>
-                <p>Reach me at <a href="mailto:nitesh0434@gmail.com">nitesh0434@gmail.com</a></p>  
-            </section>
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" name="name" required placeholder="Name" />
+      <input type="email" name="email" required placeholder="Email" />
+      <textarea name="message" required placeholder="Message"></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <div>
+      <p><strong>Email:</strong> <span id="email" onclick="copyEmail()">nitesh0434@gmail.com</span></p>
+      <p><strong>Location:</strong> Biratnagar, Nepal</p>
+      <div class="social-links">
+        <a href="#" target="_blank">GitHub</a>
+        <a href="#" target="_blank">LinkedIn</a>
+        <a href="#" target="_blank">Twitter</a>
+      </div>
+    </div>
+  </section>
 
-            <section id="projects">
-                <h2>Projects</h2>
-                <div class="project-list">
-                    <div class="project-card">
-                        <img src="assets/project1.png" alt="Project 1 Screenshot" />
-                        <h3>Portfolio Website</h3>
-                        <p>A clean, responsive portfolio built with HTML and CSS.</p>
-                        <a href="https://github.com/Nitesh0434/portfolio" target="_blank" rel="noopener">GitHub</a>
-                    </div>
-                    <!-- Add more project cards as needed -->
-                </div>
-            </section>
+  <!-- Floating AI Chatbot Button -->
+  <div id="chatbot-button" onclick="openChatbot()">
+    <svg width="28" height="28"><circle cx="14" cy="14" r="12" fill="#06B6D4" /></svg>
+  </div>
 
-        </main>
+  <!-- AI Chatbot Window -->
+  <div id="chatbot-window" class="chatbot-window">
+    <div class="chatbot-header">
+      <span>AI Assistant</span>
+      <button onclick="closeChatbot()">×</button>
+    </div>
+    <div id="chatbot-messages" class="chatbot-messages"></div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbot-input" placeholder="Ask about Nitesh..." onkeydown="chatbotKeydown(event)" />
+      <button onclick="sendChatbotMessage()">Send</button>
+    </div>
+  </div>
 
-        <footer>
-            &copy; 2025 Nitesh Kamat
-        </footer>
+  <footer>
+    <p>© 2025 Nitesh Kamat. Built with ❤️ and AI</p>
+  </footer>
 
-        <script>
-            const toggleBtn = document.getElementById('dark-mode-toggle');
-            toggleBtn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                // Update button text/icon
-                if(document.body.classList.contains('dark-mode')) {
-                    toggleBtn.textContent = '☀️ Light Mode';
-                } else {
-                    toggleBtn.textContent = '🌙 Dark Mode';
-                }
-            });
-        </script>
-
-
-    </body>
+  <script src="main.js"></script>
+</body>
 </html>
 
