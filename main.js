@@ -1,4 +1,3 @@
-// Typing Animation for name
 const nameString = "Nitesh Kamat";
 let idx = 0;
 function typeWriter() {
@@ -6,7 +5,7 @@ function typeWriter() {
   if (idx < nameString.length) {
     typedName.textContent += nameString.charAt(idx);
     idx++;
-    setTimeout(typeWriter, 120);
+    setTimeout(typeWriter, 100);
   }
 }
 window.onload = function() {
@@ -14,14 +13,12 @@ window.onload = function() {
   closeChatbot();
 };
 
-// Email Copy-to-Clipboard
 function copyEmail() {
   const emailText = document.getElementById("email").textContent;
   navigator.clipboard.writeText(emailText);
   alert("Copied: " + emailText);
 }
 
-// Chatbot logic
 let chatHistory = [];
 
 const botKnowledge = {
@@ -40,7 +37,9 @@ const botKnowledge = {
 
 function openChatbot() {
   document.getElementById("chatbot-window").style.display = "flex";
-  addBotMessage("Hi! I'm your AI assistant. Ask me anything about Nitesh's work, skills, or experience!");
+  if(chatHistory.length === 0){
+    addBotMessage("Hi! I'm your AI assistant. Ask me anything about Nitesh's work, skills, or experience!");
+  }
 }
 function closeChatbot() {
   document.getElementById("chatbot-window").style.display = "none";
@@ -55,7 +54,7 @@ function sendChatbotMessage() {
   if (!userMsg) return;
   addUserMessage(userMsg);
   inputBox.value = "";
-  setTimeout(() => botRespond(userMsg), 800);
+  setTimeout(() => botRespond(userMsg), 600);
 }
 
 function addUserMessage(msg) {
@@ -82,15 +81,14 @@ function displayChatHistory() {
   msgDiv.scrollTop = msgDiv.scrollHeight;
 }
 
-// Basic Bot Response Logic
 function botRespond(userMsg) {
   let reply =
     userMsg.match(/name|who/i)
       ? "My name is Nitesh Kamat, a full-stack developer and AI enthusiast from Biratnagar, Nepal."
-    : userMsg.match(/skill|technology|proficient/i)
+    : userMsg.match(/skill|technology|proficient|expertise/i)
       ? "I'm skilled in " + botKnowledge.skills
     : userMsg.match(/project|work|portfolio/i)
-      ? "Here are some projects: <br>" + botKnowledge.projects.join("<br>")
+      ? "Here are some projects:<br>" + botKnowledge.projects.join("<br>")
     : userMsg.match(/experience|background|education/i)
       ? botKnowledge.background + "<br>" + botKnowledge.education
     : userMsg.match(/contact|email|locat/i)
