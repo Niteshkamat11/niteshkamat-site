@@ -244,24 +244,26 @@ section {
 }
 
 .profile-image {
-    width: 150px;  /* Fixed passport size; adjust to 180px or 200px if needed */
+    width: 150px;
     height: 150px;
     border-radius: 50%;
-    overflow: hidden;  /* Clips image to circle boundaries */
-    margin: 0 auto;    /* Centers the container if needed */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);  /* Retain your shadow */
-    display: block;    /* Ensures proper rendering */
+    overflow: hidden;
+    margin: 0 auto;
+    display: block;  /* Ensures container renders as block-level */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background: #f0f0f0;  /* Fallback gray if image fails to load */
 }
 
 .profile-image img {
-    width: 100%;       /* Fills container width */
-    height: 100%;      /* Fills container height */
-    object-fit: cover; /* Crops to cover square without stretching */
-    object-position: center;  /* Centers crop on face; use 'top' if focusing on head */
-    border-radius: 50%;  /* Applies circle to image as fallback */
-    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;  /* Removes inline spacing issues */
+    border-radius: 50%;  /* Fallback for direct image clipping */
+    -webkit-border-radius: 50%;  /* Vendor prefix for older browsers */
+    -moz-border-radius: 50%;
 }
-
 
 .about-text h3 {
     font-size: 1.8rem;
