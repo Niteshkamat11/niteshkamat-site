@@ -215,7 +215,7 @@ function processUserMessage(message) {
     }
     // Contact
     else if (lowerMessage.match(/\b(contact|email|reach|hire|available)\b/)) {
-        response = "I'd love to connect with you! 📧\n\nYou can reach me at: your.email@example.com\n📍 Location: Biratnagar, Nepal\n\nI'm open to freelance projects and full-time opportunities. Feel free to use the contact form on this page or connect with me on GitHub, LinkedIn, or Twitter!";
+        response = "I'd love to connect with you! 📧\n\nYou can reach me at: nitesh0434@gmail.com\n📍 Location: Biratnagar, Nepal\n\nI'm open to freelance projects and full-time opportunities. Feel free to use the contact form on this page or connect with me on GitHub, LinkedIn, or Twitter!";
     }
     // AI/ML specific
     else if (lowerMessage.match(/\b(ai|artificial intelligence|machine learning|ml|openai)\b/)) {
