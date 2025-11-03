@@ -253,17 +253,14 @@ section {
     box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
 }
 
-
 .profile-image img {
-    width: 100%;
-    height: 100%;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
     object-fit: cover;
-    object-position: center;
-    display: block;  /* Removes inline spacing issues */
-    border-radius: 50%;  /* Fallback for direct image clipping */
-    -webkit-border-radius: 50%;  /* Vendor prefix for older browsers */
-    -moz-border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
+
 
 .about-text h3 {
     font-size: 1.8rem;
