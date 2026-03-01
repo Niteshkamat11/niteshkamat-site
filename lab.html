@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lab — Nitesh Kamat</title>
+    <style>
+        :root {
+            --primary-dark: #1E293B;
+            --accent-teal: #06B6D4;
+            --white: #FFFFFF;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-700: #334155;
+            --gray-900: #0F172A;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--gray-900) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6,182,212,0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(6,182,212,0.12) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes bgPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+        /* ── Topnav ── */
+        .topnav {
+            position: relative; z-index: 10;
+            padding: 1.2rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        .logo span { color: var(--accent-teal); }
+        .back-link { color: var(--gray-300); font-size: 0.9rem; text-decoration: none; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent-teal); }
+
+        /* ── Page center ── */
+        .page {
+            flex: 1;
+            display: flex; align-items: center; justify-content: center;
+            padding: 3rem 1.5rem;
+            position: relative; z-index: 5;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            width: 100%; max-width: 460px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        }
+
+        /* ── Card header ── */
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--gray-900) 100%);
+            padding: 2rem;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .card-header::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(6,182,212,0.28) 0%, transparent 65%);
+        }
+        .card-header-inner { position: relative; z-index: 2; }
+
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(6,182,212,0.15);
+            border: 1px solid rgba(6,182,212,0.35);
+            border-radius: 20px; padding: 0.3rem 0.9rem;
+            font-size: 0.72rem; letter-spacing: 0.1em;
+            color: var(--accent-teal); text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .badge::before {
+            content: ''; width: 6px; height: 6px;
+            background: var(--accent-teal); border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent-teal);
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .card-header h2 { color: var(--white); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .card-header p { color: var(--gray-300); font-size: 0.88rem; line-height: 1.6; }
+
+        /* Tab toggle (auth view only) */
+        .tab-row {
+            display: flex;
+            background: rgba(255,255,255,0.07);
+            padding: 0.3rem; border-radius: 10px;
+            margin-top: 1.25rem; gap: 0.3rem;
+            position: relative; z-index: 2;
+        }
+        .tab {
+            flex: 1; padding: 0.55rem;
+            background: transparent; border: none;
+            color: var(--gray-300); font-family: inherit;
+            font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; border-radius: 7px; transition: all 0.25s;
+        }
+        .tab.active { background: var(--accent-teal); color: var(--white); box-shadow: 0 2px 10px rgba(6,182,212,0.4); }
+
+        /* Email chip (verify view) */
+        .email-chip {
+            display: flex; align-items: center; gap: 0.75rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(6,182,212,0.25);
+            border-radius: 10px; padding: 0.75rem 1rem;
+            margin-top: 1rem;
+            position: relative; z-index: 2;
+            text-align: left;
+        }
+        .email-chip-icon {
+            width: 36px; height: 36px;
+            background: rgba(6,182,212,0.15);
+            border: 1px solid rgba(6,182,212,0.3);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
+        }
+        .email-chip-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-300); margin-bottom: 2px; }
+        .email-chip-addr { font-size: 0.88rem; color: #fff; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* ── Card body ── */
+        .card-body { padding: 2rem; }
+
+        /* Views */
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* Loading splash */
+        .loading-splash {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--gray-300);
+            font-size: 0.9rem;
+        }
+        .loading-spinner {
+            width: 28px; height: 28px;
+            border: 3px solid rgba(6,182,212,0.2);
+            border-top-color: var(--accent-teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Form */
+        .form-view { display: none; }
+        .form-view.active { display: block; }
+
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block; margin-bottom: 0.4rem;
+            color: var(--primary-dark); font-weight: 600; font-size: 0.88rem;
+        }
+        .form-group input {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200); border-radius: 8px;
+            font-size: 0.95rem; font-family: inherit;
+            color: var(--gray-700); outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.12);
+        }
+
+        /* Status */
+        .status-msg {
+            border-radius: 8px; padding: 0.75rem 1rem;
+            font-size: 0.85rem; line-height: 1.5;
+            margin-bottom: 1rem; display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .status-msg.show { display: block; }
+        .status-msg.info    { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+        .status-msg.success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+        .status-msg.error   { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+
+        /* Buttons */
+        .btn {
+            width: 100%; padding: 0.85rem;
+            border-radius: 8px; border: none;
+            font-family: inherit; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 0.75rem;
+        }
+        .btn:last-child { margin-bottom: 0; }
+        .btn-primary { background: var(--accent-teal); color: #fff; box-shadow: 0 4px 12px rgba(6,182,212,0.3); }
+        .btn-primary:hover { background: #0891B2; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(6,182,212,0.4); }
+        .btn-outline { background: transparent; color: var(--gray-700); border: 2px solid var(--gray-200); }
+        .btn-outline:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+        .btn-ghost { background: transparent; color: var(--gray-300); border: 2px solid var(--gray-200); }
+        .btn-ghost:hover { border-color: var(--gray-300); color: var(--gray-700); }
+        .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+        .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+        .btn.loading .spinner { display: block; }
+        .btn.loading .btn-text { opacity: 0.6; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+
+        .divider { display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0; color: var(--gray-300); font-size: 0.8rem; }
+        .divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--gray-200); }
+
+        .forgot { text-align: right; margin: -0.5rem 0 1rem; }
+        .forgot a { color: var(--accent-teal); font-size: 0.82rem; text-decoration: none; }
+        .forgot a:hover { opacity: 0.75; }
+
+        /* Strength */
+        .strength-bar { height: 4px; background: var(--gray-200); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+        .strength-fill { height: 100%; width: 0; border-radius: 4px; transition: all 0.3s; }
+        .strength-text { font-size: 0.75rem; color: var(--gray-300); margin-top: 3px; }
+
+        /* Verify steps */
+        .steps { margin-bottom: 1.5rem; }
+        .step {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.7rem 0; border-bottom: 1px solid var(--gray-200);
+            font-size: 0.88rem; color: var(--gray-700); line-height: 1.5;
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(6,182,212,0.1); border: 1.5px solid rgba(6,182,212,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; color: var(--accent-teal); margin-top: 1px;
+        }
+
+        /* Timer */
+        .timer-row { text-align: center; font-size: 0.82rem; color: var(--gray-300); margin-top: 0.5rem; display: none; }
+        .timer-row span { color: var(--accent-teal); font-weight: 600; }
+
+        /* Signout row */
+        .signout-row { margin-top: 1.25rem; text-align: center; }
+        .signout-row a { color: var(--gray-300); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+        .signout-row a:hover { color: #EF4444; }
+
+        /* ── Welcome Screen ── */
+        #view-welcome .card-header { background: linear-gradient(135deg, #064E3B, #065F46); }
+        #view-welcome .card-header::before {
+            background: radial-gradient(circle at 50% 0%, rgba(16,185,129,0.3) 0%, transparent 65%);
+        }
+        #view-welcome .badge { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: #34D399; }
+        #view-welcome .badge::before { background: #34D399; box-shadow: 0 0 6px #34D399; animation: none; opacity: 1; }
+
+        .welcome-avatar {
+            width: 72px; height: 72px;
+            background: linear-gradient(135deg, var(--accent-teal), #0891B2);
+            border-radius: 50%; margin: 0 auto 1.25rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 24px rgba(6,182,212,0.4);
+            border: 3px solid rgba(255,255,255,0.15);
+            animation: popIn 0.5s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes popIn { from{opacity:0;transform:scale(0.6)} to{opacity:1;transform:scale(1)} }
+
+        .welcome-name {
+            font-size: 1.25rem; font-weight: 700;
+            color: var(--primary-dark); text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        .welcome-email {
+            font-size: 0.82rem; color: var(--gray-300);
+            text-align: center; margin-bottom: 1.5rem;
+        }
+
+        .welcome-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0.75rem; margin-bottom: 1.5rem;
+        }
+        .welcome-tile {
+            background: var(--gray-100);
+            border-radius: 10px; padding: 1rem;
+            text-align: center;
+            border: 1.5px solid var(--gray-200);
+            transition: all 0.2s;
+        }
+        .welcome-tile:hover { border-color: var(--accent-teal); background: rgba(6,182,212,0.04); }
+        .welcome-tile-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+        .welcome-tile-label { font-size: 0.78rem; font-weight: 600; color: var(--primary-dark); }
+        .welcome-tile-sub { font-size: 0.7rem; color: var(--gray-300); margin-top: 2px; }
+
+        .welcome-badge-row {
+            display: flex; align-items: center; gap: 0.5rem;
+            background: #ECFDF5; border: 1px solid #A7F3D0;
+            border-radius: 8px; padding: 0.7rem 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem; color: #065F46; font-weight: 500;
+        }
+        .welcome-badge-row::before { content: '✓'; font-weight: 700; }
+
+        .btn-welcome-back {
+            background: var(--accent-teal); color: #fff;
+            border: none; border-radius: 8px;
+            padding: 0.85rem; width: 100%;
+            font-family: inherit; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; text-decoration: none;
+            text-align: center; display: block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(6,182,212,0.3);
+            margin-bottom: 0.75rem;
+        }
+        .btn-welcome-back:hover { background: #0891B2; transform: translateY(-2px); }
+
+        .btn-signout-welcome {
+            background: transparent; color: var(--gray-300);
+            border: 2px solid var(--gray-200); border-radius: 8px;
+            padding: 0.75rem; width: 100%;
+            font-family: inherit; font-weight: 500; font-size: 0.88rem;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-signout-welcome:hover { border-color: #EF4444; color: #EF4444; }
+
+        @media (max-width: 500px) {
+            .card-body { padding: 1.5rem; }
+            .card-header { padding: 1.5rem 1.5rem 1.2rem; }
+            .welcome-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="topnav">
+    <a class="logo" href="index.html">Nitesh<span>Kamat</span></a>
+    <a class="back-link" href="index.html">← Portfolio</a>
+</nav>
+
+<div class="page">
+    <div class="card">
+
+        <!-- ── LOADING ── -->
+        <div class="view active" id="view-loading">
+            <div class="loading-splash">
+                <div class="loading-spinner"></div>
+                Loading…
+            </div>
+        </div>
+
+        <!-- ── AUTH: Login / Signup ── -->
+        <div class="view" id="view-auth">
+            <div class="card-header">
+                <div class="card-header-inner">
+                    <div class="badge">Lab Access</div>
+                    <h2 id="auth-header-title">Welcome back</h2>
+                    <p id="auth-header-sub">Sign in to enter the lab</p>
+                    <div class="tab-row">
+                        <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+                        <button class="tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <!-- Login form -->
+                <div class="form-view active" id="form-login">
+                    <div class="status-msg" id="login-status"></div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-pass" placeholder="Your password" autocomplete="current-password"/>
+                    </div>
+                    <div class="forgot"><a href="#" id="forgot-link">Forgot password?</a></div>
+                    <button class="btn btn-primary" id="btn-login">
+                        <div class="spinner"></div>
+                        <span class="btn-text">Sign In →</span>
+                    </button>
+                    <div class="divider">no account?</div>
+                    <button class="btn btn-outline" onclick="switchTab('signup')">Create an account</button>
+                </div>
+
+                <!-- Signup form -->
+                <div class="form-view" id="form-signup">
+                    <div class="status-msg" id="signup-status"></div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-pass" placeholder="Min 6 characters" autocomplete="new-password"/>
+                        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                        <div class="strength-text" id="strength-text"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm password</label>
+                        <input type="password" id="signup-confirm" placeholder="Repeat password" autocomplete="new-password"/>
+                    </div>
+                    <button class="btn btn-primary" id="btn-signup">
+                        <div class="spinner"></div>
+                        <span class="btn-text">Create Account →</span>
+                    </button>
+                    <div class="divider">have an account?</div>
+                    <button class="btn btn-outline" onclick="switchTab('login')">Sign in instead</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── VERIFY EMAIL ── -->
+        <div class="view" id="view-verify">
+            <div class="card-header">
+                <div class="card-header-inner">
+                    <div class="badge">Email Verification</div>
+                    <h2 id="verify-title">Confirm your email</h2>
+                    <p id="verify-sub">We'll send a verification link to your address.</p>
+                    <div class="email-chip" id="email-chip" style="display:none;">
+                        <div class="email-chip-icon">✉️</div>
+                        <div style="flex:1;overflow:hidden;">
+                            <div class="email-chip-label">Signed in as</div>
+                            <div class="email-chip-addr" id="email-text">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <!-- Sub-view: send link -->
+                <div class="form-view active" id="verify-send">
+                    <div class="status-msg" id="send-status"></div>
+                    <button class="btn btn-primary" id="btn-send-link">
+                        <div class="spinner"></div>
+                        <span class="btn-text">Send Verification Link</span>
+                    </button>
+                    <div class="timer-row" id="resend-timer">Resend available in <span id="countdown">60</span>s</div>
+                    <div class="divider">already clicked the link?</div>
+                    <button class="btn btn-outline" id="btn-i-verified">✓ I have verified my email</button>
+                    <div class="signout-row"><a href="#" id="signout-link">Sign out / use a different account</a></div>
+                </div>
+
+                <!-- Sub-view: check status -->
+                <div class="form-view" id="verify-check">
+                    <div class="steps">
+                        <div class="step"><div class="step-num">1</div>Open the email from <strong>noreply@backened-a5a87.firebaseapp.com</strong></div>
+                        <div class="step"><div class="step-num">2</div>Click the <strong>"Verify email address"</strong> link inside</div>
+                        <div class="step"><div class="step-num">3</div>Come back here and press check below</div>
+                    </div>
+                    <div class="status-msg" id="check-status"></div>
+                    <button class="btn btn-primary" id="btn-check">
+                        <div class="spinner"></div>
+                        <span class="btn-text">Check Verification Status</span>
+                    </button>
+                    <button class="btn btn-ghost" id="btn-back-verify" style="margin-top:4px">← Send another link</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── WELCOME ── -->
+        <div class="view" id="view-welcome">
+            <div class="card-header">
+                <div class="card-header-inner">
+                    <div class="badge">Access Granted</div>
+                    <h2>Welcome to the Lab 🧪</h2>
+                    <p>You're authenticated and ready to explore.</p>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="welcome-avatar" id="welcome-avatar">🧑‍💻</div>
+                <div class="welcome-name" id="welcome-name">Hey there!</div>
+                <div class="welcome-email" id="welcome-email">you@example.com</div>
+
+                <div class="welcome-badge-row">Email verified &amp; account active</div>
+
+                <div class="welcome-grid">
+                    <div class="welcome-tile">
+                        <div class="welcome-tile-icon">🔐</div>
+                        <div class="welcome-tile-label">Authenticated</div>
+                        <div class="welcome-tile-sub">Firebase Auth</div>
+                    </div>
+                    <div class="welcome-tile">
+                        <div class="welcome-tile-icon">✅</div>
+                        <div class="welcome-tile-label">Verified</div>
+                        <div class="welcome-tile-sub">Email confirmed</div>
+                    </div>
+                    <div class="welcome-tile">
+                        <div class="welcome-tile-icon">🧪</div>
+                        <div class="welcome-tile-label">Lab Access</div>
+                        <div class="welcome-tile-sub">Full access</div>
+                    </div>
+                    <div class="welcome-tile">
+                        <div class="welcome-tile-icon">🌐</div>
+                        <div class="welcome-tile-label">Connected</div>
+                        <div class="welcome-tile-sub">Session active</div>
+                    </div>
+                </div>
+
+                <a class="btn-welcome-back" href="index.html">← Back to Portfolio</a>
+                <button class="btn-signout-welcome" id="btn-signout-welcome">Sign out</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function switchTab(tab) {
+        const titles = {
+            login:  ['Welcome back',     'Sign in to enter the lab'],
+            signup: ['Create an account','Join and get lab access']
+        };
+        document.getElementById('auth-header-title').textContent = titles[tab][0];
+        document.getElementById('auth-header-sub').textContent   = titles[tab][1];
+        ['login','signup'].forEach(t => {
+            document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+            document.getElementById('form-' + t).classList.toggle('active', t === tab);
+        });
+        const st = document.getElementById('login-status');
+        const ss = document.getElementById('signup-status');
+        st.className = 'status-msg'; st.textContent = '';
+        ss.className = 'status-msg'; ss.textContent = '';
+    }
+
+    function showVerifySub(id) {
+        ['verify-send','verify-check'].forEach(v => {
+            document.getElementById(v).classList.toggle('active', v === id);
+        });
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+        getAuth, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        sendEmailVerification, sendPasswordResetEmail,
+        signOut, reload
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const app = initializeApp({
+        apiKey:            "AIzaSyCS5V36kpRf8_UVETJrAuyvwQkRB8QHauc",
+        authDomain:        "backened-a5a87.firebaseapp.com",
+        projectId:         "backened-a5a87",
+        storageBucket:     "backened-a5a87.firebasestorage.app",
+        messagingSenderId: "535148610208",
+        appId:             "1:535148610208:web:2e2d1ec192fd63405b3fc5",
+        measurementId:     "G-86J58FCKX3"
+    });
+    const auth = getAuth(app);
+
+    /* ── Helpers ── */
+    const $  = id => document.getElementById(id);
+    const showView = id => {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        $(id).classList.add('active');
+    };
+    const setStatus = (el, type, msg) => { el.className = `status-msg ${type} show`; el.textContent = msg; };
+    const clrStatus = el => { el.className = 'status-msg'; el.textContent = ''; };
+    const setLoading = (btn, v) => { v ? btn.classList.add('loading') : btn.classList.remove('loading'); btn.disabled = v; };
+
+    /* ── Auth state router ── */
+    onAuthStateChanged(auth, user => {
+        if (!user) {
+            showView('view-auth');
+            return;
+        }
+        if (!user.emailVerified) {
+            $('email-chip').style.display = 'flex';
+            $('email-text').textContent = user.email;
+            showVerifySub('verify-send');
+            showView('view-verify');
+            return;
+        }
+        // Verified — show welcome
+        const name = user.displayName || user.email.split('@')[0];
+        $('welcome-name').textContent = 'Hey, ' + name + '!';
+        $('welcome-email').textContent = user.email;
+        // Avatar initials
+        $('welcome-avatar').textContent = name.charAt(0).toUpperCase();
+        showView('view-welcome');
+    });
+
+    /* ── Sign Up ── */
+    $('btn-signup').addEventListener('click', async () => {
+        const email   = $('signup-email').value.trim();
+        const pass    = $('signup-pass').value;
+        const confirm = $('signup-confirm').value;
+        const statusEl = $('signup-status');
+        clrStatus(statusEl);
+        if (!email || !pass)       return setStatus(statusEl, 'error', 'Please fill in all fields.');
+        if (pass !== confirm)      return setStatus(statusEl, 'error', 'Passwords do not match.');
+        if (pass.length < 6)       return setStatus(statusEl, 'error', 'Password must be at least 6 characters.');
+        const btn = $('btn-signup'); setLoading(btn, true);
+        try {
+            const cred = await createUserWithEmailAndPassword(auth, email, pass);
+            await sendEmailVerification(cred.user);
+            setStatus(statusEl, 'success', '✓ Account created! Check your inbox to verify your email.');
+        } catch(err) {
+            const msgs = {
+                'auth/email-already-in-use': 'An account with this email already exists.',
+                'auth/invalid-email':        'Please enter a valid email address.',
+                'auth/weak-password':        'Password is too weak.'
+            };
+            setStatus(statusEl, 'error', msgs[err.code] || err.message);
+        } finally { setLoading(btn, false); }
+    });
+
+    /* ── Sign In ── */
+    $('btn-login').addEventListener('click', async () => {
+        const email = $('login-email').value.trim();
+        const pass  = $('login-pass').value;
+        const statusEl = $('login-status');
+        clrStatus(statusEl);
+        if (!email || !pass) return setStatus(statusEl, 'error', 'Please enter your email and password.');
+        const btn = $('btn-login'); setLoading(btn, true);
+        try {
+            await signInWithEmailAndPassword(auth, email, pass);
+            // onAuthStateChanged will handle routing
+        } catch(err) {
+            const msgs = {
+                'auth/invalid-email':       'Invalid email address.',
+                'auth/user-not-found':      'No account found with this email.',
+                'auth/wrong-password':      'Incorrect password.',
+                'auth/invalid-credential':  'Invalid email or password.',
+                'auth/too-many-requests':   'Too many attempts. Please wait before trying again.'
+            };
+            setStatus(statusEl, 'error', msgs[err.code] || err.message);
+            setLoading(btn, false);
+        }
+    });
+
+    /* ── Forgot Password ── */
+    $('forgot-link').addEventListener('click', async e => {
+        e.preventDefault();
+        const email = $('login-email').value.trim();
+        const statusEl = $('login-status');
+        if (!email) return setStatus(statusEl, 'error', 'Enter your email in the field above first.');
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setStatus(statusEl, 'success', `✓ Reset link sent to ${email}`);
+        } catch(err) { setStatus(statusEl, 'error', err.message); }
+    });
+
+    /* ── Send verification ── */
+    let timerInterval = null;
+    function startCountdown(s = 60) {
+        const row = $('resend-timer'), cd = $('countdown'), btn = $('btn-send-link');
+        row.style.display = 'block'; btn.disabled = true; cd.textContent = s;
+        timerInterval && clearInterval(timerInterval); let t = s;
+        timerInterval = setInterval(() => {
+            cd.textContent = --t;
+            if (t <= 0) { clearInterval(timerInterval); row.style.display = 'none'; btn.disabled = false; }
+        }, 1000);
+    }
+
+    $('btn-send-link').addEventListener('click', async () => {
+        const user = auth.currentUser; if (!user) return;
+        const btn = $('btn-send-link'); setLoading(btn, true); clrStatus($('send-status'));
+        try {
+            await sendEmailVerification(user);
+            setStatus($('send-status'), 'success', '✓ Link sent — check your inbox and spam folder.');
+            startCountdown(60);
+        } catch(err) {
+            if (err.code === 'auth/too-many-requests') {
+                setStatus($('send-status'), 'error', 'Too many requests. Please wait before trying again.');
+                startCountdown(60);
+            } else {
+                setStatus($('send-status'), 'error', err.message);
+            }
+        } finally { setLoading(btn, false); }
+    });
+
+    $('btn-i-verified').addEventListener('click', () => { showVerifySub('verify-check'); clrStatus($('check-status')); });
+
+    $('btn-check').addEventListener('click', async () => {
+        const user = auth.currentUser; if (!user) return;
+        const btn = $('btn-check'); setLoading(btn, true); clrStatus($('check-status'));
+        try {
+            await reload(user);
+            if (auth.currentUser.emailVerified) {
+                setStatus($('check-status'), 'success', '✓ Verified! Taking you to the lab…');
+                setTimeout(() => {
+                    const name = auth.currentUser.displayName || auth.currentUser.email.split('@')[0];
+                    $('welcome-name').textContent  = 'Hey, ' + name + '!';
+                    $('welcome-email').textContent = auth.currentUser.email;
+                    $('welcome-avatar').textContent = name.charAt(0).toUpperCase();
+                    showView('view-welcome');
+                }, 1000);
+            } else {
+                setStatus($('check-status'), 'error', '✗ Not verified yet. Click the link in your inbox first.');
+                setLoading(btn, false);
+            }
+        } catch(err) { setStatus($('check-status'), 'error', err.message); setLoading(btn, false); }
+    });
+
+    $('btn-back-verify').addEventListener('click', () => { showVerifySub('verify-send'); clrStatus($('send-status')); });
+
+    /* ── Sign out (verify view) ── */
+    $('signout-link').addEventListener('click', e => {
+        e.preventDefault();
+        signOut(auth).then(() => showView('view-auth'));
+    });
+
+    /* ── Sign out (welcome view) ── */
+    $('btn-signout-welcome').addEventListener('click', () => {
+        signOut(auth).then(() => showView('view-auth'));
+    });
+
+    /* ── Enter key support ── */
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        if ($('view-auth').classList.contains('active')) {
+            const isLogin = $('form-login').classList.contains('active');
+            $(isLogin ? 'btn-login' : 'btn-signup').click();
+        }
+    });
+
+    /* ── Password strength ── */
+    $('signup-pass').addEventListener('input', e => {
+        const val = e.target.value;
+        const fill = $('strength-fill'), txt = $('strength-text');
+        if (!val) { fill.style.width = '0'; txt.textContent = ''; return; }
+        let s = 0;
+        if (val.length >= 6) s++;
+        if (val.length >= 10) s++;
+        if (/[A-Z]/.test(val)) s++;
+        if (/[0-9]/.test(val)) s++;
+        if (/[^A-Za-z0-9]/.test(val)) s++;
+        const lvls = [
+            {w:'20%',c:'#EF4444',t:'Weak'},
+            {w:'40%',c:'#F97316',t:'Fair'},
+            {w:'60%',c:'#EAB308',t:'Moderate'},
+            {w:'80%',c:'#84CC16',t:'Strong'},
+            {w:'100%',c:'#10B981',t:'Very strong'}
+        ];
+        const l = lvls[Math.min(s - 1, 4)];
+        fill.style.width = l.w; fill.style.background = l.c;
+        txt.textContent = l.t; txt.style.color = l.c;
+    });
+</script>
+
+</body>
+</html>
