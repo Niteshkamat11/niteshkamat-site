@@ -4,7 +4,212 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nitesh Kamat - Full Stack Developer &amp; AI Enthusiast</title>
-        <link rel="stylesheet" href="style.css">   
+        <link rel="stylesheet" href="style.css">
+        <style>
+            /* Auth nav additions */
+            .nav-auth {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .nav-user-chip {
+                display: none;
+                align-items: center;
+                gap: 0.5rem;
+                background: rgba(6, 182, 212, 0.1);
+                border: 1px solid rgba(6, 182, 212, 0.3);
+                border-radius: 20px;
+                padding: 0.3rem 0.9rem;
+                font-size: 0.82rem;
+                color: var(--accent-teal);
+                font-weight: 500;
+            }
+            .nav-user-chip::before {
+                content: '';
+                width: 7px; height: 7px;
+                background: #10B981;
+                border-radius: 50%;
+                box-shadow: 0 0 6px #10B981;
+                flex-shrink: 0;
+            }
+            .nav-user-chip.show { display: flex; }
+            .btn-nav-signin {
+                background: var(--accent-teal);
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 0.45rem 1.1rem;
+                font-size: 0.88rem;
+                font-weight: 600;
+                cursor: pointer;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                font-family: inherit;
+            }
+            .btn-nav-signin:hover { background: #0891B2; transform: translateY(-1px); }
+            .btn-nav-signout {
+                background: transparent;
+                color: var(--gray-700);
+                border: 1.5px solid var(--gray-300);
+                border-radius: 8px;
+                padding: 0.4rem 0.9rem;
+                font-size: 0.82rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-family: inherit;
+                display: none;
+            }
+            .btn-nav-signout.show { display: block; }
+            .btn-nav-signout:hover { border-color: #EF4444; color: #EF4444; }
+
+            /* Toast */
+            .toast-bar {
+                position: fixed;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%) translateY(-20px);
+                background: #fff;
+                border-left: 4px solid #10B981;
+                border-radius: 8px;
+                padding: 0.8rem 1.5rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+                font-size: 0.9rem;
+                color: var(--primary-dark);
+                font-weight: 500;
+                z-index: 9999;
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+                white-space: nowrap;
+            }
+            .toast-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+            /* ── Lab Access Section ── */
+            #lab-access {
+                background: linear-gradient(135deg, var(--primary-dark) 0%, var(--gray-900) 100%);
+                padding: 5rem 2rem;
+                position: relative;
+                overflow: hidden;
+            }
+            #lab-access::before {
+                content: '';
+                position: absolute; inset: 0;
+                background:
+                    radial-gradient(circle at 15% 50%, rgba(6,182,212,0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 85% 50%, rgba(6,182,212,0.12) 0%, transparent 50%);
+                animation: pulse 8s ease-in-out infinite;
+            }
+            .lab-inner {
+                max-width: 900px;
+                margin: 0 auto;
+                position: relative; z-index: 2;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2.5rem;
+                align-items: center;
+            }
+            .lab-text h2 {
+                font-size: 2.4rem; font-weight: 700;
+                color: #fff; line-height: 1.2;
+                margin-bottom: 1rem;
+            }
+            .lab-text h2 span { color: var(--accent-teal); }
+            .lab-text p {
+                color: var(--gray-300);
+                font-size: 1rem; line-height: 1.7;
+                margin-bottom: 1.5rem;
+            }
+            .lab-features {
+                display: flex; flex-direction: column; gap: 0.6rem;
+                margin-bottom: 2rem;
+            }
+            .lab-feature {
+                display: flex; align-items: center; gap: 0.6rem;
+                color: var(--gray-300); font-size: 0.9rem;
+            }
+            .lab-feature::before {
+                content: '▹';
+                color: var(--accent-teal); font-weight: 700; flex-shrink: 0;
+            }
+
+            /* The big clickable card */
+            .lab-card {
+                background: rgba(255,255,255,0.04);
+                border: 1.5px solid rgba(6,182,212,0.25);
+                border-radius: 16px;
+                padding: 2.5rem 2rem;
+                text-align: center;
+                cursor: pointer;
+                text-decoration: none;
+                display: block;
+                transition: all 0.35s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            .lab-card::before {
+                content: '';
+                position: absolute; inset: 0;
+                background: radial-gradient(circle at 50% 0%, rgba(6,182,212,0.15) 0%, transparent 60%);
+                opacity: 0; transition: opacity 0.35s;
+            }
+            .lab-card:hover { border-color: var(--accent-teal); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(6,182,212,0.2); }
+            .lab-card:hover::before { opacity: 1; }
+
+            .lab-card-icon {
+                font-size: 2.8rem; margin-bottom: 1rem;
+                display: block;
+                animation: iconBob 3s ease-in-out infinite;
+            }
+            @keyframes iconBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+            .lab-card h3 {
+                color: #fff; font-size: 1.4rem; font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+            .lab-card p {
+                color: var(--gray-300); font-size: 0.88rem;
+                line-height: 1.6; margin-bottom: 1.5rem;
+            }
+            .lab-card-btn {
+                display: inline-flex; align-items: center; gap: 0.5rem;
+                background: var(--accent-teal); color: #fff;
+                border: none; border-radius: 8px;
+                padding: 0.7rem 1.8rem;
+                font-size: 0.95rem; font-weight: 600;
+                font-family: inherit; cursor: pointer;
+                transition: background 0.3s;
+            }
+            .lab-card:hover .lab-card-btn { background: #0891B2; }
+
+            /* State: logged-in verified */
+            .lab-card.verified { border-color: rgba(16,185,129,0.35); }
+            .lab-card.verified .lab-card-btn { background: #10B981; }
+            .lab-card.verified:hover { border-color: #10B981; box-shadow: 0 20px 40px rgba(16,185,129,0.15); }
+            .lab-card.verified:hover .lab-card-btn { background: #059669; }
+
+            @media (max-width: 768px) {
+                .lab-inner { grid-template-columns: 1fr; }
+                .lab-text h2 { font-size: 1.8rem; }
+            }
+
+            /* Unverified banner */
+            .verify-banner {
+                display: none;
+                background: #FEF3C7;
+                border-bottom: 1px solid #FDE68A;
+                padding: 0.6rem 1.5rem;
+                text-align: center;
+                font-size: 0.85rem;
+                color: #92400E;
+                position: fixed;
+                top: 64px;
+                left: 0; right: 0;
+                z-index: 999;
+            }
+            .verify-banner.show { display: block; }
+            .verify-banner a { color: #0891B2; font-weight: 600; text-decoration: none; }
+            .verify-banner a:hover { text-decoration: underline; }
+        </style>
     </head>
     <body>
         <!-- Navigation -->
@@ -17,9 +222,23 @@
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="#lab-access" style="color:var(--accent-teal);font-weight:600;">🔐 Lab</a></li>
                 </ul>
+                <div class="nav-auth">
+                    <span class="nav-user-chip" id="nav-user-chip">user@email.com</span>
+                    <button class="btn-nav-signout" id="btn-nav-signout">Sign out</button>
+                    <a class="btn-nav-signin" href="lab.html" id="btn-nav-signin">Sign In</a>
+                </div>
             </div>
         </nav>
+
+        <!-- Unverified email banner -->
+        <div class="verify-banner" id="verify-banner">
+            ⚠️ Your email is not verified. <a href="lab.html">Click here to verify →</a>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast-bar" id="toast-bar"></div>
 
         <!-- Hero Section -->
         <section id="home" class="hero">
@@ -77,7 +296,8 @@
                 <ul class="skill-list">
                     <li>Node.js</li>
                     <li>Python</li>
-                    <li>Express</li>                </ul>
+                    <li>Express</li>
+                </ul>
             </div>
             <div class="skill-category">
                 <h3><span class="skill-icon">🛠</span> Tools</h3>
@@ -88,7 +308,6 @@
                     <li>Postman</li>
                     <li>Fedora</li>
                     <li>Neovim</li>
-
                 </ul>
             </div>
         </div>
@@ -124,7 +343,32 @@
                         </div>
                     </div>
                 </div>
-                      </section>
+            </div>
+        </section>
+
+        <!-- Lab Access Section -->
+        <section id="lab-access">
+            <div class="lab-inner">
+                <div class="lab-text">
+                    <h2>Access the<br/><span>Lab</span></h2>
+                    <p>Sign in or create an account to access the authenticated lab environment. Your account is secured with Firebase and email verification.</p>
+                    <div class="lab-features">
+                        <div class="lab-feature">Firebase Authentication</div>
+                        <div class="lab-feature">Email verification required</div>
+                        <div class="lab-feature">Secure & private access</div>
+                        <div class="lab-feature">Works with Google Firebase</div>
+                    </div>
+                </div>
+
+                <!-- Card state changes based on auth -->
+                <a class="lab-card" id="lab-card" href="auth.html">
+                    <span class="lab-card-icon" id="lab-card-icon">🔐</span>
+                    <h3 id="lab-card-title">Enter the Lab</h3>
+                    <p id="lab-card-desc">Sign in or create an account to get started. Email verification is required for full access.</p>
+                    <span class="lab-card-btn" id="lab-card-btn">Sign In / Sign Up →</span>
+                </a>
+            </div>
+        </section>
 
         <!-- Contact Section -->
         <section id="contact" class="fade-in">
@@ -171,6 +415,7 @@
                     <a href="#about">About</a>
                     <a href="#skills">Skills</a>
                     <a href="#projects">Projects</a>
+                    <a href="#lab-access" style="color:var(--accent-teal)">🔐 Lab</a>
                     <a href="#contact">Contact</a>
                 </div>
                 <div class="footer-bottom">
@@ -196,7 +441,99 @@
                 <button class="chat-send-btn" id="chatSend" aria-label="Send message">➤</button>
             </div>
         </div>
+
         <script src="script.js"></script>
 
+        <!-- Firebase Auth state handling -->
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+            import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+            const app = initializeApp({
+                apiKey: "AIzaSyCS5V36kpRf8_UVETJrAuyvwQkRB8QHauc",
+                authDomain: "backened-a5a87.firebaseapp.com",
+                projectId: "backened-a5a87",
+                storageBucket: "backened-a5a87.firebasestorage.app",
+                messagingSenderId: "535148610208",
+                appId: "1:535148610208:web:2e2d1ec192fd63405b3fc5",
+                measurementId: "G-86J58FCKX3"
+            });
+            const auth = getAuth(app);
+
+            // Toast for verified redirect
+            const params = new URLSearchParams(location.search);
+            if (params.get('verified') === '1') {
+                const toast = document.getElementById('toast-bar');
+                toast.textContent = '✓ Email verified — welcome to the portfolio!';
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 4000);
+                history.replaceState({}, '', 'index.html');
+            }
+
+            onAuthStateChanged(auth, user => {
+                const chip = document.getElementById('nav-user-chip');
+                const signoutBtn = document.getElementById('btn-nav-signout');
+                const signinBtn = document.getElementById('btn-nav-signin');
+                const banner = document.getElementById('verify-banner');
+
+                // Lab card elements
+                const labCard = document.getElementById('lab-card');
+                const labIcon = document.getElementById('lab-card-icon');
+                const labTitle = document.getElementById('lab-card-title');
+                const labDesc = document.getElementById('lab-card-desc');
+                const labBtn = document.getElementById('lab-card-btn');
+
+                if (user && user.emailVerified) {
+                    // Fully verified user
+                    signinBtn.style.display = 'none';
+                    signoutBtn.classList.add('show');
+                    chip.textContent = user.email;
+                    chip.classList.add('show');
+                    banner.classList.remove('show');
+
+                    labCard.href = 'lab.html';
+                    labCard.classList.add('verified');
+                    labIcon.textContent = '✅';
+                    labTitle.textContent = 'You\'re in!';
+                    labDesc.textContent = `Signed in as ${user.email}. Your account is verified and active.`;
+                    labBtn.textContent = 'Go to Lab →';
+
+                } else if (user && !user.emailVerified) {
+                    // Logged in but not verified
+                    signinBtn.style.display = 'none';
+                    signoutBtn.classList.add('show');
+                    chip.textContent = '⚠ Unverified';
+                    chip.style.color = '#D97706';
+                    chip.style.borderColor = '#FDE68A';
+                    chip.style.background = 'rgba(253,230,138,0.15)';
+                    chip.classList.add('show');
+                    banner.classList.add('show');
+
+                    labCard.href = 'lab.html';
+                    labIcon.textContent = '📧';
+                    labTitle.textContent = 'Verify your email';
+                    labDesc.textContent = 'Your account exists but your email isn\'t verified yet. Click to complete verification.';
+                    labBtn.textContent = 'Complete Verification →';
+                    labBtn.style.background = '#F59E0B';
+
+                } else {
+                    // Logged out
+                    chip.classList.remove('show');
+                    signoutBtn.classList.remove('show');
+                    signinBtn.style.display = '';
+                    banner.classList.remove('show');
+
+                    labCard.href = 'lab.html';
+                    labIcon.textContent = '🔐';
+                    labTitle.textContent = 'Enter the Lab';
+                    labDesc.textContent = 'Sign in or create an account to get started. Email verification is required for full access.';
+                    labBtn.textContent = 'Sign In / Sign Up →';
+                }
+            });
+
+            document.getElementById('btn-nav-signout').addEventListener('click', () => {
+                signOut(auth).then(() => location.reload());
+            });
+        </script>
     </body>
 </html>
